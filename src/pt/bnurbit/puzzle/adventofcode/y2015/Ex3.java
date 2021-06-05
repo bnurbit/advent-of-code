@@ -7,14 +7,58 @@ import java.util.List;
 
 public class Ex3 {
 
-    private static final boolean HAS_ROBOT = true;
-
     public static void main(String[] args) {
+        char[] data = Utils.getTestDataAsCharArray("2015/ex3");
+        part1(data);
+        part2(data);
+    }
 
-        String testData = Utils.getResourceFileAsString("2015/ex3");
-        assert testData != null;
+    /**
+     * Counting houses that receive at least one present.
+     * Beginning of the delivery in the house at the starting location.
+     * Next move based on north (^), south (v), east (>), or west (<).
+     */
+    private static void part1(char[] data) {
 
-        char [] data = testData.toCharArray();
+        int xSanta = 0;
+        int ySanta = 0;
+
+        List<String> positions = new ArrayList<>();
+        positions.add(toPosition(xSanta, ySanta));
+
+        for (var c : data) {
+
+            switch (c) {
+                case '>':
+                    xSanta++;
+                    break;
+                case '<':
+                    xSanta--;
+                    break;
+                case '^':
+                    ySanta++;
+                    break;
+                case 'v':
+                    ySanta--;
+                    break;
+                default:
+                    break;
+            }
+
+            String position = toPosition(xSanta, ySanta);
+            if (!positions.contains(position)) {
+                positions.add(position);
+            }
+        }
+        System.out.println("Total houses: " + positions.size());
+    }
+
+    /**
+     * Counting houses that receive at least one present with a robot helper.
+     * Robot starts at the same location.
+     * Robot and Santa take turns.
+     */
+    private static void part2(char[] data) {
 
         int xSanta = 0;
         int ySanta = 0;
@@ -22,39 +66,39 @@ public class Ex3 {
         int yRobot = 0;
 
         List<String> positions = new ArrayList<>();
-        positions.add(toPosition(xSanta,ySanta));
+        positions.add(toPosition(xSanta, ySanta));
 
         int counter = 0;
-        for(char c : data){
+        for (char c : data) {
             counter++;
-            boolean isSanta = HAS_ROBOT && counter % 2 != 0;
+            boolean isSanta = counter % 2 != 0;
 
-            switch (c){
+            switch (c) {
                 case '>':
-                    if(isSanta){
+                    if (isSanta) {
                         xSanta++;
-                    }else {
+                    } else {
                         xRobot++;
                     }
                     break;
                 case '<':
-                    if(isSanta){
+                    if (isSanta) {
                         xSanta--;
-                    }else {
+                    } else {
                         xRobot--;
                     }
                     break;
                 case '^':
-                    if(isSanta){
+                    if (isSanta) {
                         ySanta++;
-                    }else {
+                    } else {
                         yRobot++;
                     }
                     break;
                 case 'v':
-                    if(isSanta){
+                    if (isSanta) {
                         ySanta--;
-                    }else {
+                    } else {
                         yRobot--;
                     }
                     break;
@@ -62,15 +106,15 @@ public class Ex3 {
                     break;
             }
 
-            String position = toPosition( isSanta ? xSanta : xRobot, isSanta ? ySanta : yRobot);
-            if(!positions.contains(position)){
+            String position = toPosition(isSanta ? xSanta : xRobot, isSanta ? ySanta : yRobot);
+            if (!positions.contains(position)) {
                 positions.add(position);
             }
         }
         System.out.println("Total houses: " + positions.size());
     }
 
-    private static String toPosition(int x, int y){
+    private static String toPosition(int x, int y) {
         return x + "-" + y;
     }
 }

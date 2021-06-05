@@ -5,30 +5,51 @@ import pt.bnurbit.puzzle.adventofcode.utils.Utils;
 public class Ex1 {
 
     public static void main(String[] args) {
+        char[] data = Utils.getTestDataAsCharArray("2015/ex1");
+        part1(data);
+        part2(data);
+    }
 
-        String testData = Utils.getResourceFileAsString("2015/ex1");
-        assert testData != null;
+    /**
+     * Finding the final floor.
+     * Starting floor is 0.
+     * An opening parenthesis '(' means up one floor and a closing parenthesis ')' means down one floor.
+     */
+    private static void part1(char[] data) {
 
-        char[] data = testData.toCharArray();
+        int level = 0;
+        for (var c : data) {
+            if (c == '(') {
+                level++;
+            } else if (c == ')') {
+                level--;
+            }
+        }
+        System.out.println("Final position: " + level);
+    }
+
+    /**
+     * Finding the position of the first character that causes entering the basement (floor -1)
+     */
+    private static void part2(char[] data) {
 
         boolean firstBasement = false;
-        int counter =0;
+        int counter = 0;
         int level = 0;
-        for(char c : data){
+        for (var c : data) {
             counter++;
 
-            if(c == '('){
+            if (c == '(') {
                 level++;
-            }else if(c== ')'){
-                level --;
+            } else if (c == ')') {
+                level--;
             }
 
             //basement
-            if(level < 0 && !firstBasement){
+            if (level < 0 && !firstBasement) {
                 firstBasement = true;
                 System.out.println("Basement at position: " + counter);
             }
         }
-        System.out.println(level);
     }
 }

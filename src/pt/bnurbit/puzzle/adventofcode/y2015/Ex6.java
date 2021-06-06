@@ -11,13 +11,12 @@ public class Ex6 {
         part2(data);
     }
 
-    private enum LightsType {
-        TOGGLE,
-        TURN_ON,
-        TURN_OFF,
-        OTHER
-    }
-
+    /**
+     * Counting lights for the ideal lighting configuration.
+     * Deploying one million lights in a 1000x1000 grid.
+     * Instructions include whether to turn on, turn off, or toggle.
+     * Each coordinate pair represents opposite corners of a rectangle.
+     */
     private static void part1(String[] strings) {
 
         boolean[][] lightsMatrix = new boolean[1000][1000];
@@ -70,6 +69,14 @@ public class Ex6 {
         System.out.println("Lights on: " + nLights);
     }
 
+    /**
+     * Counting the brightness of the lights for the ideal lighting configuration.
+     * Deploying one million lights in a 1000x1000 grid.
+     * Each light can have a brightness of zero or more
+     * - turn on means increasing the brightness by 1.
+     * - turn off means decreasing the brightness by 1, to a minimum of zero.
+     * - toggle means increasing the brightness by 2.
+     */
     private static void part2(String[] strings) {
 
         int[][] lightsMatrix = new int[1000][1000];
@@ -144,6 +151,13 @@ public class Ex6 {
         coordinatesAndOperation.setA(new Point2D(Integer.parseInt(coordinates[0]), Integer.parseInt(coordinates[1])));
         coordinatesAndOperation.setB(new Point2D(Integer.parseInt(coordinates[2]), Integer.parseInt(coordinates[3])));
         return coordinatesAndOperation;
+    }
+
+    private enum LightsType {
+        TOGGLE,
+        TURN_ON,
+        TURN_OFF,
+        OTHER
     }
 
     private static class CoordinatesAndOperation {
